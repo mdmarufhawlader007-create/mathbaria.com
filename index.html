@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>মঠবাড়িয়া মার্ট</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+    body { background-color: #f4f5f7; color: #2d3748; padding-bottom: 70px; }
+
+    /* Admin Announcement Notice Bar */
+    .admin-notice-bar { background: #ff4d4f; color: #fff; padding: 6px 12px; font-size: 11px; text-align: center; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+
+    /* Top Navbar */
+    .top-header { background: #ffffff; padding: 12px 16px; border-bottom: 1px solid #edf2f7; position: sticky; top: 0; z-index: 100; }
+    .header-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .logo-container { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .menu-toggle-btn { font-size: 20px; background: none; border: none; cursor: pointer; color: #1a202c; margin-right: 4px; }
+    
+    /* Logo / Image Container */
+    .logo-icon-wrapper { width: 36px; height: 36px; border-radius: 8px; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #ff5722; color: white; font-weight: bold; font-size: 18px; }
+    .logo-icon-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+    .logo-text h1 { font-size: 15px; font-weight: 700; color: #1a202c; line-height: 1.1; }
+    .logo-text p { font-size: 9px; color: #718096; }
+
+    .role-selector { background: #1e293b; color: white; border: 1px solid #475569; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; outline: none; cursor: pointer; }
+
+    .search-row { display: flex; gap: 8px; }
+    .search-box { flex: 1; position: relative; }
+    .search-box input { width: 100%; padding: 8px 12px 8px 32px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 12px; background: #f8fafc; outline: none; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #a0aec0; font-size: 12px; }
+    .location-btn { background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #4a5568; cursor: pointer; }
+
+    .page-view { display: none; }
+    .page-view.active { display: block; }
+
+    /* Side Drawer Menu */
+    .side-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 400; }
+    .side-drawer { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #ffffff; z-index: 401; transition: left 0.3s ease; display: flex; flex-direction: column; box-shadow: 2px 0 8px rgba(0,0,0,0.1); }
+    .side-drawer.open { left: 0; }
+    .drawer-header { background: #ff5722; color: white; padding: 20px 16px; display: flex; align-items: center; gap: 12px; }
+    .drawer-avatar { width: 45px; height: 45px; background: white; color: #ff5722; font-size: 18px; font-weight: bold; border-radius: 50%; display: flex; justify-content: center; align-items: center; background-size: cover; background-position: center; }
+    .drawer-menu-items { flex: 1; overflow-y: auto; padding: 10px 0; }
+    .drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; font-size: 13px; font-weight: 600; color: #2d3748; text-decoration: none; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: none; width: 100%; text-align: left; border: none; }
+    .drawer-item:hover { background: #f8fafc; color: #ff5722; }
+
+    /* Banner Container */
+    .banner-container { 
+      margin: 12px 16px; 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 12px; 
+      padding: 18px 16px; 
+      border: 1px solid #e2e8f0; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      position: relative; 
+      overflow: hidden; 
+      min-height: 120px;
+    }
+    .ad-tag { position: absolute; top: 0; right: 0; background: #ff9800; color: white; font-size: 8px; padding: 2px 6px; border-bottom-left-radius: 8px; font-weight: bold; }
+
+    /* Categories */
+    .categories-wrapper { background: #ffffff; margin: 12px 16px; padding: 14px; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .categories-grid { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+    .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 60px; cursor: pointer; flex-shrink: 0; }
+    .cat-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; margin-bottom: 4px; }
+    .cat-label { font-size: 10px; font-weight: 600; color: #4a5568; text-align: center; white-space: nowrap; }
+
+    /* Product Grid */
+    .section-container { margin: 16px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .card-small { background: white; border-radius: 10px; overflow: hidden; border: 1px solid #edf2f7; display: flex; flex-direction: column; justify-content: space-between; position: relative; cursor: pointer; }
+    .card-small img { width: 100%; height: 110px; object-fit: cover; }
+    .card-small-info { padding: 8px; }
+    .card-small-title { font-size: 11px; font-weight: 600; color: #2d3748; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-small-price { font-size: 12px; font-weight: 700; color: #ff5722; margin-top: 2px; }
+    .card-small-location { font-size: 9px; color: #718096; margin-top: 2px; }
+    
+    .fav-heart-btn { position: absolute; top: 6px; right: 6px; background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 14px; color: #cbd5e1; z-index: 5; }
+    .fav-heart-btn.active { color: #ef4444 !important; }
+
+    .card-actions { display: flex; gap: 4px; padding: 6px 8px; background: #f8fafc; border-top: 1px solid #edf2f7; }
+    .btn-chat { flex: 1; background: #25d366; color: white; border: none; padding: 4px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; text-align: center; }
+    .btn-call { flex: 1; background: #0284c7; color: white; border: none; padding: 4px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; }
+
+    /* Profile Card & Cover */
+    .profile-card { background: white; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+    .profile-cover-area { height: 130px; background: #e2e8f0; background-size: cover; background-position: center; position: relative; }
+    .profile-body-area { padding: 12px 16px 16px 16px; position: relative; }
+    
+    .profile-avatar-wrapper { position: absolute; top: -35px; left: 16px; width: 64px; height: 64px; }
+    .profile-avatar-large { width: 64px; height: 64px; background: #ff5722; color: white; font-size: 26px; font-weight: bold; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: 3px solid white; background-size: cover; background-position: center; }
+    
+    .camera-icon-btn { position: absolute; background: rgba(0, 0, 0, 0.6); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 2px solid white; transition: 0.2s; }
+    .cover-camera { bottom: 10px; right: 10px; width: 32px; height: 32px; font-size: 14px; }
+    .avatar-camera { bottom: 0; right: 0; width: 22px; height: 22px; font-size: 10px; }
+    .file-input-hidden { display: none; }
+
+    .inbox-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
+
+    /* Admin Tab Navigation */
+    .admin-tabs { display: flex; gap: 4px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+    .admin-tab-btn { background: #e2e8f0; color: #475569; border: none; padding: 6px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; cursor: pointer; white-space: nowrap; flex: 1; text-align: center; }
+    .admin-tab-btn.active { background: #ff5722; color: white; box-shadow: 0 2px 4px rgba(255,87,34,0.3); }
+
+    .admin-section-content { display: none; }
+    .admin-section-content.active { display: block; }
+
+    /* Forms & Modal */
+    .form-group { margin-bottom: 10px; }
+    .form-group label { font-size: 11px; font-weight: 600; display: block; margin-bottom: 4px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; }
+    .btn-main { width: 100%; background: #ff5722; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
+    .btn-admin { background: #1e293b; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; width: 100%; }
+    .btn-secondary { background: #e2e8f0; color: #475569; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; }
+
+    /* Bottom Nav Bar */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; border-top: 1px solid #edf2f7; display: flex; justify-content: space-around; align-items: center; height: 60px; z-index: 200; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #a0aec0; font-size: 10px; font-weight: 500; cursor: pointer; border: none; background: none; flex: 1; }
+    .nav-item.active { color: #ff5722; }
+    .nav-icon { font-size: 18px; margin-bottom: 2px; }
+    .sell-btn { width: 46px; height: 46px; background: #ff5722; border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; font-size: 22px; border: 3px solid white; box-shadow: 0 4px 8px rgba(255,87,34,0.4); cursor: pointer; position: relative; top: -12px; }
+
+    /* Modals */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 300; padding: 16px; }
+    .modal-card { background: white; border-radius: 16px; width: 100%; max-width: 400px; padding: 16px; max-height: 90vh; overflow-y: auto; }
+    
+    .chat-box { display: flex; flex-direction: column; height: 350px; }
+    .chat-post-info { background: #f1f5f9; padding: 8px; border-radius: 6px; margin-bottom: 8px; font-size: 11px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 8px; background: #f8fafc; border-radius: 8px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 8px; font-size: 11px; }
+    .chat-msg.sent { background: #ff5722; color: white; align-self: flex-end; }
+    .chat-msg.received { background: #e2e8f0; color: #1e293b; align-self: flex-start; }
+
+    .union-option-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px; cursor: pointer; background: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Notice Bar -->
+  <div class="admin-notice-bar" id="adminNoticeBar">
+    <span id="noticeText">📢 জরুরি নোটিশ: মঠবাড়িয়ার সকল ইউনিয়নে হোম ডেলিভারি চালু করা হয়েছে!</span>
+    <span style="cursor: pointer;" onclick="document.getElementById('adminNoticeBar').style.display='none'">✕</span>
+  </div>
+
+  <!-- Side Drawer Menu -->
+  <div class="side-drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+  <div class="side-drawer" id="sideDrawer">
+    <div class="drawer-header" id="drawerHeaderArea" style="cursor: pointer;" onclick="toggleDrawer(); showPage('profile')">
+      <div class="drawer-avatar" id="drawerAvatarLetter">M</div>
+      <div>
+        <h3 style="font-size: 14px;" id="drawerUserName">অতিথি ব্যবহারকারী</h3>
+        <p style="font-size: 10px; opacity: 0.8;" id="drawerUserPhone">লগইন করা নেই</p>
+      </div>
+    </div>
+    <div class="drawer-menu-items">
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('home')"><span>🏠</span> হোম</button>
+      <button class="drawer-item" onclick="toggleDrawer(); openUnionModal()"><span>📍</span> ইউনিয়ন অনুযায়ী খুঁজুন</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('profile')"><span>📋</span> আমার বিজ্ঞাপনসমূহ</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('wishlist')"><span>❤️</span> সংরক্ষিত বিজ্ঞাপন (Wishlist)</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('privacy')"><span>🔒</span> প্রাইভেসি পলিসি ও সাবধানতা</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('announcement')"><span>🔔</span> এনাউন্সমেন্ট ও ফ্রড অ্যালার্ট</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('customerReport')"><span>⚠️</span> কাস্টমার রিপোর্ট</button>
+      <button class="drawer-item" onclick="toggleDrawer(); showPage('help')"><span>☎</span> হেল্পলাইন ও যোগাযোগ</button>
+      <button class="drawer-item" onclick="toggleDrawer(); openSocialLinksModal()"><span>🌐</span> ফেসবুক গ্রুপ ও পেজ</button>
+      <button class="drawer-item" onclick="toggleDrawer(); switchRole('admin')"><span>⚙</span> অ্যাডমিন প্যানেল / সেটিংস</button>
+    </div>
+  </div>
+
+  <!-- Top Header Bar -->
+  <header class="top-header">
+    <div class="header-top-row">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button class="menu-toggle-btn" onclick="toggleDrawer()">☰</button>
+        <div class="logo-container" onclick="showPage('home')">
+          <div class="logo-icon-wrapper" id="headerLogoContainer">
+            <span id="headerLogoLetter">ম</span>
+          </div>
+          <div class="logo-text">
+            <h1>মঠবাড়িয়া মার্ট</h1>
+            <p>মঠবাড়িয়ার নিজস্ব অনলাইন বাজার</p>
+          </div>
+        </div>
+      </div>
+
+      <select class="role-selector" id="roleSelector" onchange="switchRole(this.value)">
+        <option value="customer" selected>👤 কাস্টমার মোড</option>
+        <option value="admin">🛡️ অ্যাডমিন মোড</option>
+      </select>
+    </div>
+
+    <div class="search-row">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="কি খুঁজছেন?">
+      </div>
+      <button class="location-btn" id="headerLocationBtn" onclick="openUnionModal()">📍 সব ইউনিয়ন ▾</button>
+    </div>
+  </header>
+
+  <!-- HOME VIEW -->
+  <div id="homeView" class="page-view active">
+    
+    <div class="banner-container" id="mainBanner">
+      <span class="ad-tag" id="bannerTag">স্পন্সরড অ্যাড</span>
+    </div>
+
+    <div class="categories-wrapper">
+      <div class="categories-grid">
+        <div class="cat-item" onclick="filterCategory('সব')"><div class="cat-icon" style="background:#f1f5f9; color:#475569;">🌐</div><span class="cat-label">সব ক্যাটাগরি</span></div>
+        <div class="cat-item" onclick="filterCategory('মোবাইল')"><div class="cat-icon" style="background:#fff7ed; color:#f97316;">📱</div><span class="cat-label">মোবাইল</span></div>
+        <div class="cat-item" onclick="filterCategory('কম্পিউটার')"><div class="cat-icon" style="background:#f0f9ff; color:#0284c7;">💻</div><span class="cat-label">কম্পিউটার</span></div>
+        <div class="cat-item" onclick="filterCategory('ইলেকট্রনিক্স')"><div class="cat-icon" style="background:#f0fdf4; color:#16a34a;">📺</div><span class="cat-label">ইলেকট্রনিক্স</span></div>
+        <div class="cat-item" onclick="filterCategory('যানবাহন')"><div class="cat-icon" style="background:#faf5ff; color:#9333ea;">🏍</div><span class="cat-label">যানবাহন</span></div>
+        <div class="cat-item" onclick="filterCategory('জমি')"><div class="cat-icon" style="background:#ecfdf5; color:#059669;">🏠</div><span class="cat-label">জমি ও বাসা</span></div>
+        <div class="cat-item" onclick="filterCategory('চাকরি')"><div class="cat-icon" style="background:#fef2f2; color:#ef4444;">💼</div><span class="cat-label">চাকরি</span></div>
+        <div class="cat-item" onclick="filterCategory('ফ্যাশন')"><div class="cat-icon" style="background:#fdf4ff; color:#d946ef;">👕</div><span class="cat-label">ফ্যাশন</span></div>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <h3 style="font-size: 15px; margin-bottom: 10px;" id="catHeading">সাম্প্রতিক বিজ্ঞাপন</h3>
+      <div class="product-grid" id="publicProductGrid"></div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL VIEW -->
+  <div id="productDetailView" class="page-view" style="padding: 16px;">
+    <button onclick="showPage('home')" class="btn-secondary" style="margin-bottom: 12px;"><i class="fa-solid fa-arrow-left"></i> হোমে ফিরে যান</button>
+    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); padding: 16px;" id="productDetailCard"></div>
+  </div>
+
+  <!-- PRIVACY POLICY VIEW -->
+  <div id="privacyView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b;">🔒 প্রাইভেসি পলিসি ও সাবধানতা</h3>
+      <div id="privacyContentDisplay" style="font-size: 12px; color: #475569; line-height: 1.6; margin-bottom: 14px;"></div>
+      <div id="privacyAdminBox" style="display:none; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+        <h4 style="font-size: 12px; margin-bottom: 6px; color: #ff5722;">প্রাইভেসি পলিসি এডিট করুন (অ্যাডমিন)</h4>
+        <textarea id="privacyTextInput" rows="5" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; margin-bottom:8px;"></textarea>
+        <button class="btn-main" onclick="savePrivacyPolicy()">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANNOUNCEMENT & FRAUD ALERT VIEW -->
+  <div id="announcementView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b;">🔔 এনাউন্সমেন্ট ও ফ্রড অ্যালার্ট</h3>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 14px;">দরকারি আপডেট এবং প্রতারকদের ছবিসহ তালিকা এখানে দেখতে পাবেন।</p>
+      <div id="announcementListContainer"></div>
+      <div id="announcementAdminBox" style="display:none; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 14px;">
+        <h4 style="font-size: 12px; margin-bottom: 6px; color: #ff5722;">নতুন এনাউন্সমেন্ট বা ফ্রড অ্যালার্ট যোগ করুন</h4>
+        <div class="form-group">
+          <label>শিরোনাম / প্রতারকের নাম</label>
+          <input type="text" id="annTitle" placeholder="যেমন: সাবধান! এই ব্যক্তি প্রতারক">
+        </div>
+        <div class="form-group">
+          <label>বিস্তারিত বিবরণ</label>
+          <textarea id="annDesc" rows="3" placeholder="বিস্তারিত লিখুন..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>ছবি (প্রয়োজন হলে)</label>
+          <input type="file" id="annImage" accept="image/*">
+        </div>
+        <button class="btn-main" onclick="postAnnouncement()">পোস্ট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER REPORT VIEW -->
+  <div id="customerReportView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b;">⚠️ কাস্টমার রিপোর্ট অপশন</h3>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 14px;">কোনো বিক্রেতা বা পণ্যের বিরুদ্ধে অভিযোগ থাকলে নিচে জানান।</p>
+      
+      <form onsubmit="submitCustomerReport(event)">
+        <div class="form-group">
+          <label>আপনার নাম ও মোবাইল নম্বর *</label>
+          <input type="text" id="reportAuthor" required placeholder="নাম ও নম্বর">
+        </div>
+        <div class="form-group">
+          <label>অভিযোগ বা রিপোর্টের বিষয় *</label>
+          <input type="text" id="reportSubject" required placeholder="যেমন: ভুয়া পণ্য বা প্রতারণা">
+        </div>
+        <div class="form-group">
+          <label>বিস্তারিত বিবরণ *</label>
+          <textarea id="reportDetails" rows="4" required placeholder="ঘটনাটি বিস্তারিত লিখুন..."></textarea>
+        </div>
+        <button type="submit" class="btn-main">রিপোর্ট জমা দিন</button>
+      </form>
+
+      <div id="adminReportSection" style="display:none; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+        <h4 style="font-size: 13px; margin-bottom: 8px; color: #1e293b;">📥 কাস্টমারদের জমাকৃত রিপোর্টসমূহ (অ্যাডমিন ভিউ)</h4>
+        <div id="adminReportListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WISHLIST VIEW -->
+  <div id="wishlistView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">❤ সংরক্ষিত বিজ্ঞাপনসমূহ (Wishlist)</h3>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">আপনার লাভ আইকনে ক্লিক করে সংরক্ষণ করা বিজ্ঞাপনগুলো এখানে দেখতে পাবেন।</p>
+      <div class="product-grid" id="wishlistProductGrid"></div>
+    </div>
+  </div>
+
+  <!-- MESSAGES/INBOX VIEW -->
+  <div id="messageView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">💬 মেসেজ ইনবক্স (চ্যাট লিস্ট)</h3>
+      <div id="directInboxContainer"></div>
+    </div>
+  </div>
+
+  <!-- HELP & CONTACT VIEW -->
+  <div id="helpView" class="page-view" style="padding: 16px;">
+    <div style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 16px; margin-bottom: 10px; color: #1e293b;">☎️ হেল্পলাইন ও যোগাযোগ</h3>
+      <p style="font-size: 12px; color: #475569; margin-bottom: 14px;">যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে পারেন:</p>
+      
+      <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+        <p style="font-size: 12px; font-weight: bold; color: #1e293b;">📞 মোবাইল হেল্পলাইন নম্বর:</p>
+        <a href="tel:01329567768" style="font-size: 14px; font-weight: bold; color: #0284c7; text-decoration: none;">01329567768</a>
+      </div>
+
+      <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+        <p style="font-size: 12px; font-weight: bold; color: #1e293b;">📧 ইমেইল ঠিকানা:</p>
+        <a href="mailto:mdmaruf007@gmail.com" style="font-size: 13px; font-weight: bold; color: #ff5722; text-decoration: none;">mdmaruf007@gmail.com</a>
+      </div>
+
+      <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <p style="font-size: 12px; font-weight: bold; color: #1e293b;">🌐 ফেসবুক গ্রুপ ও পেজ:</p>
+        <div id="socialLinksDisplayArea" style="margin-top: 6px; font-size: 12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL VIEW -->
+  <div id="adminView" class="page-view" style="padding: 16px;">
+    
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" id="tabBtnPending" onclick="switchAdminTab('pending')">📥 পেন্ডিং (<span id="pendingCount">0</span>)</button>
+      <button class="admin-tab-btn" id="tabBtnApproved" onclick="switchAdminTab('approved')">✅ এপ্রুভড (<span id="approvedCount">0</span>)</button>
+      <button class="admin-tab-btn" id="tabBtnUsers" onclick="switchAdminTab('users')">👥 কাস্টমার ডাটা (<span id="userCount">0</span>)</button>
+      <button class="admin-tab-btn" id="tabBtnSettings" onclick="switchAdminTab('settings')">⚙ সেটিংস</button>
+    </div>
+
+    <!-- TAB 1: Pending Ads -->
+    <div class="admin-section-content active" id="adminSectionPending">
+      <div style="background: white; padding: 16px; border-radius: 12px; border-left: 4px solid #f59e0b; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="font-size: 14px; color: #1e293b; margin-bottom: 4px;">📥 নতুন পোস্ট হওয়া বিজ্ঞাপন</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">ব্যবহারকারীদের নতুন পোস্ট করা বিজ্ঞাপনগুলো এখান থেকে যাচাই করুন</p>
+        <div id="adminPendingAdsContainer"></div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Approved Ads -->
+    <div class="admin-section-content" id="adminSectionApproved">
+      <div style="background: white; padding: 16px; border-radius: 12px; border-left: 4px solid #16a34a; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="font-size: 14px; color: #1e293b; margin-bottom: 4px;">✅ এপ্রুভ হওয়া বিজ্ঞাপন</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">যে বিজ্ঞাপনগুলো ইতিমধ্যে এপ্রুভ করা হয়েছে</p>
+        <div id="adminApprovedAdsContainer"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Customer Database -->
+    <div class="admin-section-content" id="adminSectionUsers">
+      <div style="background: white; padding: 16px; border-radius: 12px; border-left: 4px solid #0284c7; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="font-size: 14px; color: #1e293b; margin-bottom: 4px;">👥 রেজিস্টার্ড কাস্টমার ডাটাবেজ</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">কাস্টমারের নামের ওপর ক্লিক করে ভেতরে প্রবেশ করুন এবং পাসওয়ার্ডসহ সকল ডিটেলস পরিবর্তন করুন</p>
+        <div id="adminUserListContainer"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: General Settings -->
+    <div class="admin-section-content" id="adminSectionSettings">
+      <div style="background: white; padding: 16px; border-radius: 12px; border-left: 4px solid #1e293b; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="font-size: 14px; color: #1e293b; margin-bottom: 4px;">🛡️ অ্যাডমিন কন্ট্রোল প্যানেল</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">এখান থেকে লোগো, নোটিশ, ব্যানার এবং সোশ্যাল মিডিয়া লিংক পরিবর্তন করুন</p>
+        
+        <div style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+          <h4 style="font-size: 11px; margin-bottom: 6px; color: #1e293b;">ওয়েবসাইট লোগো পরিবর্তন করুন</h4>
+          <div class="form-group">
+            <label>লোগো ছবি আপলোড করুন</label>
+            <input type="file" id="adminLogoFile" accept="image/*">
+          </div>
+          <button class="btn-main" onclick="updateWebsiteLogo()">লোগো আপডেট করুন</button>
+        </div>
+
+        <div style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+          <h4 style="font-size: 11px; margin-bottom: 6px; color: #ff4d4f;">নোটিফিকেশন বার আপডেট করুন</h4>
+          <div class="form-group">
+            <input type="text" id="adminNoticeInput" placeholder="যেমন: নতুন অফার চলছে!">
+          </div>
+          <button class="btn-admin" onclick="updateAdminNotice()">নোটিশ আপডেট করুন</button>
+        </div>
+
+        <div style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+          <h4 style="font-size: 11px; margin-bottom: 6px; color: #2563eb;">ফেসবুক গ্রুপ ও পেজ লিংক সেট করুন</h4>
+          <div class="form-group">
+            <label>ফেসবুক গ্রুপ লিংক</label>
+            <input type="url" id="adminFbGroupInput" placeholder="https://facebook.com/groups/...">
+          </div>
+          <div class="form-group">
+            <label>ফেসবুক পেজ লিংক</label>
+            <input type="url" id="adminFbPageInput" placeholder="https://facebook.com/...">
+          </div>
+          <button class="btn-main" onclick="updateSocialLinks()">সোশ্যাল লিংক সংরক্ষণ করুন</button>
+        </div>
+
+        <div style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+          <h4 style="font-size: 11px; margin-bottom: 6px; color: #ff5722;">ব্যানার অ্যাড ও ইমেজ পরিবর্তন</h4>
+          <div class="form-group">
+            <label>ব্যানার ছবি আপলোড করুন</label>
+            <input type="file" id="adminBannerFile" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label>ট্যাগ লাইন</label>
+            <input type="text" id="adminBannerTag" value="স্পন্সরড অফার">
+          </div>
+          <div class="form-group">
+            <label>ব্যানার শিরোনাম</label>
+            <input type="text" id="adminBannerTitle" placeholder="যেমন: মঠবাড়িয়া অফার">
+          </div>
+          <button class="btn-main" onclick="updateBannerAd()">ব্যানার আপডেট করুন</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PROFILE VIEW -->
+  <div id="profileView" class="page-view" style="padding: 16px;">
+    
+    <!-- লগ আউট অবস্থায় একাউন্ট তৈরি ও লগইন টগল করার বক্স -->
+    <div id="loggedOutBox" class="profile-card" style="padding: 16px;">
+      
+      <div style="display: flex; gap: 4px; margin-bottom: 14px; background: #e2e8f0; padding: 3px; border-radius: 8px;">
+        <button type="button" id="tabRegisterBtn" onclick="switchAuthTab('register')" style="flex: 1; padding: 6px; border: none; border-radius: 6px; font-size: 11px; font-weight: bold; background: #ff5722; color: white; cursor: pointer;">একাউন্ট তৈরি</button>
+        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" style="flex: 1; padding: 6px; border: none; border-radius: 6px; font-size: 11px; font-weight: bold; background: transparent; color: #475569; cursor: pointer;">লগইন</button>
+      </div>
+
+      <!-- ১. একাউন্ট তৈরির ফর্ম -->
+      <div id="registerFormContainer">
+        <h3 style="font-size: 15px; color: #1e293b; margin-bottom: 4px; text-align: center;">নতুন অ্যাকাউন্ট তৈরি</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px; text-align: center;">সঠিক ১১ ডিজিটের মোবাইল নম্বর এবং তথ্য দিন</p>
+        
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>আপনার নাম *</label>
+            <input type="text" id="loginName" required placeholder="যেমন: রহিম আহমেদ">
+          </div>
+          <div class="form-group">
+            <label>মোবাইল নম্বর (১১ ডিজিট, যেমন: 017XXXXXXXX) *</label>
+            <input type="tel" id="loginPhone" required placeholder="017XXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>পাসওয়ার্ড দিন *</label>
+            <input type="password" id="loginPassword" required placeholder="পাসওয়ার্ড">
+          </div>
+          <div class="form-group">
+            <label>বিজনেস বা দোকানের নাম *</label>
+            <input type="text" id="loginBusinessName" required placeholder="যেমন: রহিম টেলিকম">
+          </div>
+          <div class="form-group">
+            <label>ঠিকানা / ইউনিয়ন *</label>
+            <select id="loginAddress" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+              <option value="মঠবাড়িয়া সদর">মঠবাড়িয়া সদর</option>
+              <option value="মঠবাড়িয়া পৌরসভা">মঠবাড়িয়া পৌরসভা</option>
+              <option value="তুষখালী">তুষখালী</option>
+              <option value="মিরুখালী">মিরুখালী</option>
+              <option value="ধানীসাফা">ধানীসাফা</option>
+              <option value="আমরাগাছিয়া">আমরাগাছিয়া</option>
+              <option value="টিকিকাটা">টিকিকাটা</option>
+              <option value="দাউদখালী">দাউদখালী</option>
+              <option value="বেতমোর রাজপাড়া">বেতমোর রাজপাড়া</option>
+              <option value="সাপলেজা">সাপলেজা</option>
+              <option value="গুলিশাখালী">গুলিশাখালী</option>
+              <option value="বড়মাছুয়া">বড়মাছুয়া</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-main">একাউন্ট তৈরি করুন</button>
+        </form>
+      </div>
+
+      <!-- ২. লগইন ফর্ম -->
+      <div id="loginFormContainer" style="display: none;">
+        <h3 style="font-size: 15px; color: #1e293b; margin-bottom: 4px; text-align: center;">অ্যাকাউন্টে লগইন করুন</h3>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 12px; text-align: center;">আপনার রেজিস্টার্ড নম্বর ও পাসওয়ার্ড দিন</p>
+        
+        <form onsubmit="handleUserLogin(event)">
+          <div class="form-group">
+            <label>মোবাইল নম্বর (১১ ডিজিট) *</label>
+            <input type="tel" id="signinPhone" required placeholder="017XXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>পাসওয়ার্ড *</label>
+            <input type="password" id="signinPassword" required placeholder="পাসওয়ার্ড">
+          </div>
+          <div style="text-align: right; margin-bottom: 10px;">
+            <a href="javascript:void(0);" onclick="openForgotPasswordModal()" style="font-size: 11px; color: #ff5722; text-decoration: none; font-weight: 600;">পাসওয়ার্ড ভুলে গেছেন?</a>
+          </div>
+          <button type="submit" class="btn-main">লগইন করুন</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- লগইন করা অবস্থায় প্রোফাইল ও ড্যাশবোর্ড -->
+    <div id="loggedInBox" style="display: none;">
+      <div class="profile-card">
+        
+        <div class="profile-cover-area" id="profileCoverBg">
+          <label for="updateCoverPicFile" class="camera-icon-btn cover-camera" title="কভার ফটো পরিবর্তন করুন">
+            <i class="fa-solid fa-camera"></i>
+          </label>
+          <input type="file" id="updateCoverPicFile" class="file-input-hidden" accept="image/*" onchange="updateCoverPicture(event)">
+        </div>
+
+        <div class="profile-body-area">
+          
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar-large" id="avatarLetter">R</div>
+            <label for="updateProfilePicFile" class="camera-icon-btn avatar-camera" title="প্রোফাইল ছবি পরিবর্তন করুন">
+              <i class="fa-solid fa-camera"></i>
+            </label>
+            <input type="file" id="updateProfilePicFile" class="file-input-hidden" accept="image/*" onchange="updateProfilePicture(event)">
+          </div>
+          
+          <div style="margin-left: 72px; min-height: 40px;">
+            <h3 style="font-size: 15px; color: #1e293b;" id="userDisplayName">রহিম আহমেদ</h3>
+            <p style="font-size: 12px; font-weight: bold; color: #ff5722;" id="userDisplayBusiness">🏪 রহিম টেলিকম</p>
+          </div>
+
+          <div style="margin-top: 12px; font-size: 11px; color: #475569; display: flex; flex-direction: column; gap: 4px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+            <p>📞 <b>মোবাইল:</b> <span id="userDisplayPhone">01700000000</span></p>
+            <p>📍 <b>ঠিকানা:</b> <span id="userDisplayAddress">মঠবাড়িয়া সদর</span></p>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-main" onclick="openEditProfileModal()">প্রোফাইল এডিট করুন</button>
+            <button class="btn-secondary" onclick="handleLogout()" style="color: #ef4444; width: 100%;">লগআউট করুন</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: white; padding: 16px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <h3 style="font-size: 14px; margin-bottom: 10px; color: #1e293b;">📋 আমার পোস্ট করা বিজ্ঞাপনসমূহ</h3>
+        <div id="myAdsContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD MODAL (WHATSAPP REQUEST TO ADMIN) -->
+  <div class="modal-overlay" id="forgotPasswordModal">
+    <div class="modal-card" style="text-align: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h3 style="font-size: 15px; color: #1e293b;">পাসওয়ার্ড পুনরুদ্ধার</h3>
+        <button onclick="closeForgotPasswordModal()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+      </div>
+      <p style="font-size: 12px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
+        সুরক্ষার স্বার্থে অটোমেটিক পাসওয়ার্ড পরিবর্তন বা রিসেট করার কোনো সুযোগ নেই। পাসওয়ার্ড ফিরে পেতে নিচে ক্লিক করে সরাসরি অ্যাডমিনের হোয়াটসঅ্যাপে রিকোয়েস্ট পাঠান।
+      </p>
+      
+      <a href="https://wa.me/8801329567768?text=হ্যালো%20অ্যাডমিন,%20আমার%20মঠবাড়িয়া%20মার্ট%20একাউন্টের%20পাসওয়ার্ড%20ভুলে%20গেছি।%20দয়া%20করে%20আমার%20পাসওয়ার্ডটি%20রিসেট%20করে%20দিন।" target="_blank" style="display: inline-block; background: #25d366; color: white; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; text-decoration: none; margin-bottom: 12px; width: 100%;">
+        <i class="fa-brands fa-whatsapp" style="font-size: 16px;"></i> হোয়াটসঅ্যাপে পাসওয়ার্ড রিকোয়েস্ট পাঠান
+      </a>
+      <p style="font-size: 11px; color: #718096; margin-bottom: 10px;">হোয়াটসঅ্যাপ নম্বর: 01329567768</p>
+      <button type="button" onclick="closeForgotPasswordModal()" class="btn-secondary" style="width:100%;">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- ADMIN EDIT CUSTOMER DETAIL MODAL -->
+  <div class="modal-overlay" id="adminEditCustomerModal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 15px; color: #1e293b;">কাস্টমার তথ্য ও পাসওয়ার্ড এডিট (অ্যাডমিন)</h3>
+        <button onclick="closeAdminEditCustomerModal()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleAdminUpdateCustomer(event)">
+        <input type="hidden" id="adminEditOriginalPhone">
+        <div class="form-group">
+          <label>কাস্টমারের নাম *</label>
+          <input type="text" id="adminEditName" required>
+        </div>
+        <div class="form-group">
+          <label>মোবাইল নম্বর (১১ ডিজিট) *</label>
+          <input type="tel" id="adminEditPhone" required>
+        </div>
+        <div class="form-group">
+          <label>পাসওয়ার্ড *</label>
+          <input type="text" id="adminEditPassword" required placeholder="পাসওয়ার্ড লিখুন">
+        </div>
+        <div class="form-group">
+          <label>বিজনেস বা দোকানের নাম *</label>
+          <input type="text" id="adminEditBusiness" required>
+        </div>
+        <div class="form-group">
+          <label>ঠিকানা / ইউনিয়ন *</label>
+          <select id="adminEditAddress" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+            <option value="মঠবাড়িয়া সদর">মঠবাড়িয়া সদর</option>
+            <option value="মঠবাড়িয়া পৌরসভা">মঠবাড়িয়া পৌরসভা</option>
+            <option value="তুষখালী">তুষখালী</option>
+            <option value="মিরুখালী">মিরুখালী</option>
+            <option value="ধানীসাফা">ধানীসাফা</option>
+            <option value="আমরাগাছিয়া">আমরাগাছিয়া</option>
+            <option value="টিকিকাটা">টিকিকাটা</option>
+            <option value="দাউদখালী">দাউদখালী</option>
+            <option value="বেতমোর রাজপাড়া">বেতমোর রাজপাড়া</option>
+            <option value="সাপলেজা">সাপলেজা</option>
+            <option value="গুলিশাখালী">গুলিশাখালী</option>
+            <option value="বড়মাছুয়া">বড়মাছুয়া</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-main">পরিবর্তন সংরক্ষণ করুন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROFILE EDIT MODAL -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 15px; color: #1e293b;">প্রোফাইল তথ্য আপডেট করুন</h3>
+        <button onclick="closeEditProfileModal()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleUpdateProfile(event)">
+        <div class="form-group">
+          <label>আপনার নাম *</label>
+          <input type="text" id="editProfileName" required>
+        </div>
+        <div class="form-group">
+          <label>মোবাইল নম্বর (১১ ডিজিট) *</label>
+          <input type="tel" id="editProfilePhone" required>
+        </div>
+        <div class="form-group">
+          <label>বিজনেস বা দোকানের নাম *</label>
+          <input type="text" id="editProfileBusiness" required>
+        </div>
+        <div class="form-group">
+          <label>ঠিকানা / ইউনিয়ন *</label>
+          <select id="editProfileAddress" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px;">
+            <option value="মঠবাড়িয়া সদর">মঠবাড়িয়া সদর</option>
+            <option value="মঠবাড়িয়া পৌরসভা">মঠবাড়িয়া পৌরসভা</option>
+            <option value="তুষখালী">তুষখালী</option>
+            <option value="মিরুখালী">মিরুখালী</option>
+            <option value="ধানীসাফা">ধানীসাফা</option>
+            <option value="আমরাগাছিয়া">আমরাগাছিয়া</option>
+            <option value="টিকিকাটা">টিকিকাটা</option>
+            <option value="দাউদখালী">দাউদখালী</option>
+            <option value="বেতমোর রাজপাড়া">বেতমোর রাজপাড়া</option>
+            <option value="সাপলেজা">সাপলেজা</option>
+            <option value="গুলিশাখালী">গুলিশাখালী</option>
+            <option value="বড়মাছুয়া">বড়মাছুয়া</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-main">পরিবর্তন সংরক্ষণ করুন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- UNION SELECTION MODAL -->
+  <div class="modal-overlay" id="unionModal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h3 style="font-size: 15px; color: #1e293b;">ইউনিয়ন নির্বাচন করুন</h3>
+        <button onclick="closeUnionModal()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+      </div>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 10px;">আপনার পছন্দের এলাকার বিজ্ঞাপন দেখতে ইউনিয়ন সিলেক্ট করুন</p>
+      
+      <div class="form-group">
+        <input type="text" id="unionSearchInput" onkeyup="filterUnionList()" placeholder="ইউনিয়নের নাম দিয়ে খুঁজুন...">
+      </div>
+
+      <div id="unionListContainer" style="max-height: 280px; overflow-y: auto;">
+        <div class="union-option-item" onclick="selectUnion('সব ইউনিয়ন')">
+          <div><strong>সব ইউনিয়ন (পুরো মঠবাড়িয়া)</strong><p style="font-size: 10px; color:#64748b;">সকল এলাকার বিজ্ঞাপন</p></div>
+          <span style="color:#ff5722; font-weight:bold;">✓</span>
+        </div>
+        <div class="union-option-item" onclick="selectUnion('মঠবাড়িয়া পৌরসভা')"><div><strong>মঠবাড়িয়া পৌরসভা</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('মঠবাড়িয়া সদর')"><div><strong>মঠবাড়িয়া সদর</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('আমরাগাছিয়া')"><div><strong>আমরাগাছিয়া</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('বেতমোর রাজপাড়া')"><div><strong>বেতমোর রাজপাড়া</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('বড়মাছুয়া')"><div><strong>বড়মাছুয়া</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('দাউদখালী')"><div><strong>দাউদখালী</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('ধানীসাফা')"><div><strong>ধানীসাফা</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('গুলিশাখালী')"><div><strong>গুলিশাখালী</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('মিরুখালী')"><div><strong>মিরুখালী</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('তুষখালী')"><div><strong>তুষখালী</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('সাপলেজা')"><div><strong>সাপলেজা</strong></div></div>
+        <div class="union-option-item" onclick="selectUnion('টিকিকাটা')"><div><strong>টিকিকাটা</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL LINKS MODAL -->
+  <div class="modal-overlay" id="socialLinksModal">
+    <div class="modal-card" style="text-align: center;">
+      <h3 style="font-size: 15px; margin-bottom: 8px; color: #1e293b;">🌐 ফেসবুক গ্রুপ ও পেজ</h3>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 14px;">আমাদের অফিসিয়াল গ্রুপ এবং পেজে যুক্ত থাকুন</p>
+      <div id="modalSocialContent" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;"></div>
+      <button onclick="closeSocialLinksModal()" class="btn-secondary" style="width: 100%;">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div class="modal-overlay" id="adminLoginModal">
+    <div class="modal-card">
+      <h3 style="font-size: 15px; margin-bottom: 6px; color: #1e293b;">🛡 অ্যাডমিন ভেরিফিকেশন</h3>
+      <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">অ্যাডমিন প্যানেলে প্রবেশ করতে সঠিক নাম এবং মোবাইল নম্বর দিন</p>
+      <form onsubmit="verifyAdminLogin(event)">
+        <div class="form-group">
+          <label>অ্যাডমিন নাম *</label>
+          <input type="text" id="adminInputName" required placeholder="নাম লিখুন">
+        </div>
+        <div class="form-group">
+          <label>অ্যাডমিন মোবাইল নম্বর *</label>
+          <input type="tel" id="adminInputPhone" required placeholder="নম্বর লিখুন">
+        </div>
+        <button type="submit" class="btn-main">লগইন করুন</button>
+        <button type="button" onclick="closeAdminLoginModal()" class="btn-secondary" style="width:100%; margin-top:6px;">বাতিল</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-item" id="navHome" onclick="showPage('home')">
+      <span class="nav-icon">🏠</span><span>হোম</span>
+    </button>
+    
+    <button class="nav-item" id="navMessage" onclick="showPage('message')">
+      <span class="nav-icon">💬</span><span>মেসেজ</span>
+    </button>
+
+    <div class="sell-btn-wrapper">
+      <button class="sell-btn" onclick="openAddModal()">+</button>
+    </div>
+
+    <button class="nav-item" id="navWishlist" onclick="showPage('wishlist')">
+      <span class="nav-icon">❤️</span><span>উইশলিস্ট</span>
+    </button>
+
+    <button class="nav-item" id="navProfile" onclick="showPage('profile')">
+      <span class="nav-icon">👤</span><span>প্রোফাইল</span>
+    </button>
+  </nav>
+
+  <!-- POST AD MODAL -->
+  <div class="modal-overlay" id="adModal">
+    <div class="modal-card">
+      <h3 style="font-size: 15px; margin-bottom: 12px; color: #ff5722;">নতুন বিজ্ঞাপন পোস্ট করুন</h3>
+      <form onsubmit="postNewAd(event)">
+        <div class="form-group">
+          <label>পণ্যের বা বিজনেসের নাম *</label>
+          <input type="text" id="adTitle" required placeholder="যেমন: স্যামসাং মোবাইল">
+        </div>
+        <div class="form-group">
+          <label>ক্যাটাগরি *</label>
+          <select id="adCategory">
+            <option value="মোবাইল">মোবাইল</option>
+            <option value="কম্পিউটার">কম্পিউটার</option>
+            <option value="ইলেকট্রনিক্স">ইলেকট্রনিক্স</option>
+            <option value="যানবাহন">যানবাহন</option>
+            <option value="জমি">জমি ও বাসা</option>
+            <option value="চাকরি">চাকরি</option>
+            <option value="ফ্যাশন">ফ্যাশন</option>
+            <option value="অন্যান্য">অন্যান্য</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>লোকেশন / ইউনিয়ন *</label>
+          <select id="adLocation">
+            <option value="মঠবাড়িয়া সদর">মঠবাড়িয়া সদর</option>
+            <option value="মঠবাড়িয়া পৌরসভা">মঠবাড়িয়া পৌরসভা</option>
+            <option value="তুষখালী">তুষখালী</option>
+            <option value="মিরুখালী">মিরুখালী</option>
+            <option value="ধানীসাফা">ধানীসাফা</option>
+            <option value="আমরাগাছিয়া">আমরাগাছিয়া</option>
+            <option value="টিকিকাটা">টিকিকাটা</option>
+            <option value="দাউদখালী">দাউদখালী</option>
+            <option value="বেতমোর রাজপাড়া">বেতমোর রাজপাড়া</option>
+            <option value="সাপলেজা">সাপলেজা</option>
+            <option value="গুলিশাখালী">গুলিশাখালী</option>
+            <option value="বড়মাছুয়া">বড়মাছুয়া</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>দাম (টাকা) *</label>
+          <input type="number" id="adPrice" required placeholder="৫০০০">
+        </div>
+        <div class="form-group">
+          <label>ছবি যুক্ত করুন *</label>
+          <input type="file" id="adImageFile" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn-main">পোস্ট করুন</button>
+        <button type="button" onclick="closeAddModal()" class="btn-secondary" style="width:100%; margin-top:6px;">বাতিল</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CHAT MESSENGER MODAL -->
+  <div class="modal-overlay" id="chatModal">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h4 style="font-size: 13px; color: #1e293b;" id="chatTargetTitle">চ্যাট</h4>
+        <button onclick="closeChatModal()" style="border: none; background: none; font-size: 16px; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="chat-post-info" id="chatPostInfo"></div>
+
+      <div class="chat-box">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div style="display: flex; gap: 6px;">
+          <input type="text" id="chatInput" placeholder="মেসেজ লিখুন..." style="flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 11px;">
+          <button onclick="sendMessage()" class="btn-main" style="width: auto; padding: 0 12px;">পাঠান</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = JSON.parse(localStorage.getItem('mothbaria_user')) || null;
+    let registeredUsers = JSON.parse(localStorage.getItem('mothbaria_all_users')) || [
+      { name: "করিম হাসান", phone: "01711000000", password: "123456", businessName: "করিম টেলিকম", address: "মঠবাড়িয়া সদর", profilePic: "", coverPic: "" }
+    ];
+    let ads = JSON.parse(localStorage.getItem('mothbaria_ads')) || [
+      { id: 1, title: "Banglalink Router", category: "ইলেকট্রনিক্স", location: "মঠবাড়িয়া সদর", price: 2499, sellerPhone: "01711000000", seller: "করিম হাসান", status: "approved", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80" }
+    ];
+    let chats = JSON.parse(localStorage.getItem('mothbaria_chats')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('mothbaria_wishlist')) || [];
+    let selectedUnionFilter = "সব ইউনিয়ন";
+
+    let privacyPolicyText = localStorage.getItem('mothbaria_privacy') || "এখানে সাইটের প্রাইভেসি পলিসি ও সকল ব্যবহারকারীর জন্য গুরুত্বপূর্ণ সতর্কতা লিখে রাখুন। কোনো প্রতারণা থেকে দূরে থাকুন।";
+    let announcements = JSON.parse(localStorage.getItem('mothbaria_announcements')) || [
+      { id: 1, title: "সতর্কবার্তা", desc: "লেনদেনের পূর্বে ভালোভাবে যাচাই করুন। অগ্রিম টাকা দিয়ে প্রতারিত হবেন না।", image: "" }
+    ];
+    let customerReports = JSON.parse(localStorage.getItem('mothbaria_reports')) || [];
+
+    let bannerSettings = JSON.parse(localStorage.getItem('mothbaria_banner')) || {
+      image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=600&q=80",
+      tag: "স্পন্সরড অ্যাড",
+      title: "মঠবাড়িয়ার মানুষের<br>নিজের অনলাইন বাজার",
+      sub: "কেনাবেচা করুন সহজে, নিরাপদে"
+    };
+
+    let noticeSettings = localStorage.getItem('mothbaria_notice') || "📢 জরুরি নোটিশ: মঠবাড়িয়ার সকল ইউনিয়নে হোম ডেলিভারি চালু করা হয়েছে!";
+    
+    let socialLinks = JSON.parse(localStorage.getItem('mothbaria_social')) || {
+      group: "https://facebook.com/groups/mothbaria.bazar",
+      page: "https://facebook.com/mothbaria.onlinebazar"
+    };
+
+    let websiteLogoImage = localStorage.getItem('mothbaria_logo') || "";
+
+    window.onload = function() {
+      applyBannerSettings();
+      applyWebsiteLogo();
+      document.getElementById('noticeText').innerText = noticeSettings;
+      renderPublicAds();
+      updateDrawerUserInfo();
+      renderHelpSocialLinks();
+      renderPrivacyPolicyPage();
+      renderAnnouncementsPage();
+    };
+
+    function applyWebsiteLogo() {
+      const logoWrapper = document.getElementById('headerLogoContainer');
+      if(websiteLogoImage) {
+        logoWrapper.innerHTML = `<img src="${websiteLogoImage}" alt="Logo">`;
+      } else {
+        logoWrapper.innerHTML = `<span id="headerLogoLetter">ম</span>`;
+      }
+    }
+
+    function updateWebsiteLogo() {
+      const fileInput = document.getElementById('adminLogoFile');
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          websiteLogoImage = e.target.result;
+          localStorage.setItem('mothbaria_logo', websiteLogoImage);
+          applyWebsiteLogo();
+          alert('ওয়েবসাইট লোগো সফলভাবে আপডেট হয়েছে!');
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    function toggleDrawer() {
+      const drawer = document.getElementById('sideDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      drawer.classList.toggle('open');
+      overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+    }
+
+    function updateDrawerUserInfo() {
+      const drawerHeader = document.getElementById('drawerHeaderArea');
+      if (currentUser) {
+        document.getElementById('drawerUserName').innerText = currentUser.name;
+        document.getElementById('drawerUserPhone').innerText = currentUser.phone;
+        
+        const drawerAvatar = document.getElementById('drawerAvatarLetter');
+        if(currentUser.profilePic) {
+          drawerAvatar.innerText = "";
+          drawerAvatar.style.backgroundImage = `url('${currentUser.profilePic}')`;
+        } else {
+          drawerAvatar.style.backgroundImage = "none";
+          drawerAvatar.innerText = currentUser.name.charAt(0).toUpperCase();
+        }
+      } else {
+        document.getElementById('drawerUserName').innerText = 'অতিথি ব্যবহারকারী';
+        document.getElementById('drawerUserPhone').innerText = 'লগইন করা নেই';
+        const drawerAvatar = document.getElementById('drawerAvatarLetter');
+        drawerAvatar.style.backgroundImage = "none";
+        drawerAvatar.innerText = 'M';
+      }
+    }
+
+    function openUnionModal() { document.getElementById('unionModal').style.display = 'flex'; }
+    function closeUnionModal() { document.getElementById('unionModal').style.display = 'none'; }
+
+    function openSocialLinksModal() {
+      const content = document.getElementById('modalSocialContent');
+      content.innerHTML = `
+        <a href="${socialLinks.group}" target="_blank" style="background: #1877f2; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold;">👥 ফেসবুক গ্রুপে যোগ দিন</a>
+        <a href="${socialLinks.page}" target="_blank" style="background: #0284c7; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold;">📢 ফেসবুক পেজ ভিজিট করুন</a>
+      `;
+      document.getElementById('socialLinksModal').style.display = 'flex';
+    }
+    function closeSocialLinksModal() { document.getElementById('socialLinksModal').style.display = 'none'; }
+
+    function renderHelpSocialLinks() {
+      const area = document.getElementById('socialLinksDisplayArea');
+      area.innerHTML = `
+        <p style="margin-bottom: 4px;"><b>গ্রুপ:</b> <a href="${socialLinks.group}" target="_blank" style="color:#0284c7;">লিংক ভিজিট করুন</a></p>
+        <p><b>পেজ:</b> <a href="${socialLinks.page}" target="_blank" style="color:#0284c7;">লিংক ভিজিট করুন</a></p>
+      `;
+    }
+
+    function updateSocialLinks() {
+      const group = document.getElementById('adminFbGroupInput').value.trim();
+      const page = document.getElementById('adminFbPageInput').value.trim();
+      if(group) socialLinks.group = group;
+      if(page) socialLinks.page = page;
+
+      localStorage.setItem('mothbaria_social', JSON.stringify(socialLinks));
+      renderHelpSocialLinks();
+    }
+
+    function selectUnion(unionName) {
+      selectedUnionFilter = unionName;
+      document.getElementById('headerLocationBtn').innerText = `📍 ${unionName} ▾`;
+      closeUnionModal();
+      renderPublicAds();
+    }
+
+    function filterUnionList() {
+      const query = document.getElementById('unionSearchInput').value.toLowerCase();
+      document.querySelectorAll('.union-option-item').forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(query) ? 'flex' : 'none';
+      });
+    }
+
+    function toggleWishlist(event, adId) {
+      event.stopPropagation();
+      const index = wishlist.indexOf(adId);
+      if(index > -1) {
+        wishlist.splice(index, 1);
+      } else {
+        wishlist.push(adId);
+      }
+      localStorage.setItem('mothbaria_wishlist', JSON.stringify(wishlist));
+      renderPublicAds();
+      if(document.getElementById('wishlistView').classList.contains('active')) renderWishlistAds();
+    }
+
+    function renderWishlistAds() {
+      const grid = document.getElementById('wishlistProductGrid');
+      const savedAds = ads.filter(a => wishlist.includes(a.id) && a.status === 'approved');
+      
+      if(savedAds.length === 0) {
+        grid.innerHTML = `<p style="font-size: 12px; color: #718096; grid-column: 1/-1; text-align: center; padding: 20px;">আপনার সংরক্ষিত কোনো বিজ্ঞাপন নেই।</p>`;
+        return;
+      }
+      
+      grid.innerHTML = savedAds.map(ad => `
+        <div class="card-small" onclick="openProductDetail(${ad.id})">
+          <button class="fav-heart-btn active" onclick="toggleWishlist(event, ${ad.id})">❤</button>
+          <div>
+            <img src="${ad.image}">
+            <div class="card-small-info">
+              <div class="card-small-title">${ad.title}</div>
+              <div class="card-small-price">৳ ${ad.price}</div>
+              <div class="card-small-location">📍 ${ad.location}</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-chat" onclick="event.stopPropagation(); startChatForAd(${ad.id})">💬 মেসেজ</button>
+            <a href="tel:${ad.sellerPhone}" class="btn-call" onclick="event.stopPropagation()">📞 কল</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveAdsToStorage() { localStorage.setItem('mothbaria_ads', JSON.stringify(ads)); }
+
+    function applyBannerSettings() {
+      const banner = document.getElementById('mainBanner');
+      banner.style.backgroundImage = `url('${bannerSettings.image}')`;
+      document.getElementById('bannerTag').innerText = bannerSettings.tag;
+    }
+
+    function switchRole(role) {
+      if(role === 'admin') document.getElementById('adminLoginModal').style.display = 'flex';
+      else showPage('home');
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('adminLoginModal').style.display = 'none';
+      document.getElementById('roleSelector').value = 'customer';
+    }
+
+    function verifyAdminLogin(e) {
+      e.preventDefault();
+      const inputName = document.getElementById('adminInputName').value.trim();
+      const inputPhone = document.getElementById('adminInputPhone').value.trim();
+
+      if(inputName === 'tariqul6278' && inputPhone === '01329567768') {
+        closeAdminLoginModal();
+        showPage('admin');
+      } else {
+        alert("ভুল নাম অথবা নম্বর!");
+        closeAdminLoginModal();
+      }
+    }
+
+    function showPage(pageName) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+      document.getElementById(`${pageName}View`).classList.add('active');
+      const navBtn = document.getElementById(`nav${pageName.charAt(0).toUpperCase() + pageName.slice(1)}`);
+      if(navBtn) navBtn.classList.add('active');
+
+      const isAdminMode = (document.getElementById('roleSelector').value === 'admin');
+      if(pageName === 'privacy') {
+        renderPrivacyPolicyPage();
+        document.getElementById('privacyAdminBox').style.display = isAdminMode ? 'block' : 'none';
+      }
+      if(pageName === 'announcement') {
+        renderAnnouncementsPage();
+        document.getElementById('announcementAdminBox').style.display = isAdminMode ? 'block' : 'none';
+      }
+      if(pageName === 'customerReport') {
+        renderCustomerReports();
+        document.getElementById('adminReportSection').style.display = isAdminMode ? 'block' : 'none';
+      }
+
+      if(pageName === 'home') { document.getElementById('roleSelector').value = 'customer'; renderPublicAds(); }
+      if(pageName === 'wishlist') renderWishlistAds();
+      if(pageName === 'message') renderDirectInbox();
+      if(pageName === 'profile') renderProfilePage();
+      if(pageName === 'admin') { document.getElementById('roleSelector').value = 'admin'; renderAdminPanelData(); }
+    }
+
+    function openProductDetail(adId) {
+      const ad = ads.find(a => a.id === adId);
+      if(!ad) return;
+
+      const container = document.getElementById('productDetailCard');
+      const isFav = wishlist.includes(ad.id);
+
+      container.innerHTML = `
+        <div style="position: relative; margin-bottom: 12px;">
+          <img src="${ad.image}" style="width: 100%; height: 240px; object-fit: cover; border-radius: 8px;">
+          <button class="fav-heart-btn ${isFav ? 'active' : ''}" style="top: 10px; right: 10px; width: 34px; height: 34px; font-size: 18px;" onclick="toggleWishlist(event, ${ad.id})">❤</button>
+        </div>
+        <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 6px;">${ad.title}</h2>
+        <div style="font-size: 20px; font-weight: bold; color: #ff5722; margin-bottom: 10px;">৳ ${ad.price}</div>
+        
+        <div style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-size: 12px; border: 1px solid #e2e8f0;">
+          <p style="margin-bottom: 4px;">📂 <b>ক্যাটাগরি:</b> ${ad.category}</p>
+          <p style="margin-bottom: 4px;">📍 <b>লোকেশন:</b> ${ad.location}</p>
+          <p>👤 <b>বিক্রেতা:</b> ${ad.seller || 'সাধারণ বিক্রেতা'}</p>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-main" onclick="startChatForAd(${ad.id})" style="flex: 1; padding: 10px; background: #25d366;">💬 মেসেজ করুন</button>
+          <a href="tel:${ad.sellerPhone}" class="btn-call" style="flex: 1; padding: 10px; font-size: 12px; display: flex; justify-content: center; align-items: center; border-radius: 6px;">📞 কল করুন</a>
+        </div>
+      `;
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.getElementById('productDetailView').classList.add('active');
+    }
+
+    function renderPrivacyPolicyPage() {
+      document.getElementById('privacyContentDisplay').innerHTML = `<p style="white-space: pre-line;">${privacyPolicyText}</p>`;
+      document.getElementById('privacyTextInput').value = privacyPolicyText;
+    }
+    function savePrivacyPolicy() {
+      const text = document.getElementById('privacyTextInput').value.trim();
+      if(text) {
+        privacyPolicyText = text;
+        localStorage.setItem('mothbaria_privacy', privacyPolicyText);
+        renderPrivacyPolicyPage();
+      }
+    }
+
+    function renderAnnouncementsPage() {
+      const container = document.getElementById('announcementListContainer');
+      const isAdminMode = (document.getElementById('roleSelector').value === 'admin');
+      if(announcements.length === 0) {
+        container.innerHTML = `<p style="font-size: 11px; color: #718096;">কোনো এনাউন্সমেন্ট বা ফ্রড অ্যালার্ট নেই।</p>`;
+        return;
+      }
+      container.innerHTML = announcements.map(item => `
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 10px; position: relative;">
+          <h4 style="font-size: 13px; color: #ef4444; margin-bottom: 4px;">📌 ${item.title}</h4>
+          <p style="font-size: 11px; color: #475569; white-space: pre-line; margin-bottom: ${item.image ? '8px' : '0'};">${item.desc}</p>
+          ${item.image ? `<img src="${item.image}" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 6px; margin-top: 6px;">` : ''}
+          ${isAdminMode ? `<button onclick="deleteAnnouncement(${item.id})" style="background:#ef4444; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer; margin-top:6px;">ডিলিট</button>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function postAnnouncement() {
+      const title = document.getElementById('annTitle').value.trim();
+      const desc = document.getElementById('annDesc').value.trim();
+      const fileInput = document.getElementById('annImage');
+
+      if(!title || !desc) return;
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          announcements.unshift({ id: Date.now(), title, desc, image: e.target.result });
+          localStorage.setItem('mothbaria_announcements', JSON.stringify(announcements));
+          document.getElementById('annTitle').value = '';
+          document.getElementById('annDesc').value = '';
+          fileInput.value = '';
+          renderAnnouncementsPage();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        announcements.unshift({ id: Date.now(), title, desc, image: "" });
+        localStorage.setItem('mothbaria_announcements', JSON.stringify(announcements));
+        document.getElementById('annTitle').value = '';
+        document.getElementById('annDesc').value = '';
+        renderAnnouncementsPage();
+      }
+    }
+
+    function deleteAnnouncement(id) {
+      announcements = announcements.filter(a => a.id !== id);
+      localStorage.setItem('mothbaria_announcements', JSON.stringify(announcements));
+      renderAnnouncementsPage();
+    }
+
+    function submitCustomerReport(e) {
+      e.preventDefault();
+      const author = document.getElementById('reportAuthor').value.trim();
+      const subject = document.getElementById('reportSubject').value.trim();
+      const details = document.getElementById('reportDetails').value.trim();
+
+      customerReports.unshift({ id: Date.now(), author, subject, details, status: 'পেন্ডিং' });
+      localStorage.setItem('mothbaria_reports', JSON.stringify(customerReports));
+      
+      document.getElementById('reportAuthor').value = '';
+      document.getElementById('reportSubject').value = '';
+      document.getElementById('reportDetails').value = '';
+      alert('আপনার রিপোর্ট সফলভাবে জমা দেওয়া হয়েছে।');
+    }
+
+    function renderCustomerReports() {
+      const container = document.getElementById('adminReportListContainer');
+      if(customerReports.length === 0) {
+        container.innerHTML = `<p style="font-size: 11px; color: #718096;">কোনো রিপোর্ট জমা পড়েনি।</p>`;
+        return;
+      }
+      container.innerHTML = customerReports.map(rep => `
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="font-size: 12px; color: #1e293b;">${rep.subject}</strong>
+            <span style="font-size: 10px; color: ${rep.status === 'সমাধানকৃত' ? '#16a34a' : '#ef4444'}; font-weight: bold;">${rep.status}</span>
+          </div>
+          <p style="font-size: 11px; color: #475569; margin-bottom: 4px;">${rep.details}</p>
+          <p style="font-size: 10px; color: #718096;">রিপোর্টার: ${rep.author}</p>
+          <div style="margin-top: 6px; display: flex; gap: 6px;">
+            <button onclick="resolveReport(${rep.id})" style="background:#16a34a; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer;">পদক্ষেপ নেওয়া হয়েছে</button>
+            <button onclick="deleteReport(${rep.id})" style="background:#ef4444; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:10px; cursor:pointer;">ডিলিট</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function resolveReport(id) {
+      const rep = customerReports.find(r => r.id === id);
+      if(rep) {
+        rep.status = 'সমাধানকৃত';
+        localStorage.setItem('mothbaria_reports', JSON.stringify(customerReports));
+        renderCustomerReports();
+      }
+    }
+
+    function deleteReport(id) {
+      customerReports = customerReports.filter(r => r.id !== id);
+      localStorage.setItem('mothbaria_reports', JSON.stringify(customerReports));
+      renderCustomerReports();
+    }
+
+    function switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.admin-section-content').forEach(sec => sec.classList.remove('active'));
+
+      if(tabName === 'pending') { document.getElementById('tabBtnPending').classList.add('active'); document.getElementById('adminSectionPending').classList.add('active'); }
+      else if(tabName === 'approved') { document.getElementById('tabBtnApproved').classList.add('active'); document.getElementById('adminSectionApproved').classList.add('active'); }
+      else if(tabName === 'users') { document.getElementById('tabBtnUsers').classList.add('active'); document.getElementById('adminSectionUsers').classList.add('active'); }
+      else if(tabName === 'settings') { document.getElementById('tabBtnSettings').classList.add('active'); document.getElementById('adminSectionSettings').classList.add('active'); }
+    }
+
+    function updateBannerAd() {
+      const fileInput = document.getElementById('adminBannerFile');
+      const title = document.getElementById('adminBannerTitle').value;
+      if(title) bannerSettings.title = title;
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          bannerSettings.image = e.target.result;
+          localStorage.setItem('mothbaria_banner', JSON.stringify(bannerSettings));
+          applyBannerSettings();
+          showPage('home');
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        localStorage.setItem('mothbaria_banner', JSON.stringify(bannerSettings));
+        applyBannerSettings();
+        showPage('home');
+      }
+    }
+
+    function updateAdminNotice() {
+      const text = document.getElementById('adminNoticeInput').value;
+      if(text) {
+        noticeSettings = `📢 ${text}`;
+        localStorage.setItem('mothbaria_notice', noticeSettings);
+        document.getElementById('noticeText').innerText = noticeSettings;
+        document.getElementById('adminNoticeBar').style.display = 'flex';
+      }
+    }
+
+    function switchAuthTab(mode) {
+      const regBtn = document.getElementById('tabRegisterBtn');
+      const logBtn = document.getElementById('tabLoginBtn');
+      const regForm = document.getElementById('registerFormContainer');
+      const logForm = document.getElementById('loginFormContainer');
+
+      if(mode === 'register') {
+        regBtn.style.background = '#ff5722';
+        regBtn.style.color = 'white';
+        logBtn.style.background = 'transparent';
+        logBtn.style.color = '#475569';
+        regForm.style.display = 'block';
+        logForm.style.display = 'none';
+      } else {
+        logBtn.style.background = '#ff5722';
+        logBtn.style.color = 'white';
+        regBtn.style.background = 'transparent';
+        regBtn.style.color = '#475569';
+        logForm.style.display = 'block';
+        regForm.style.display = 'none';
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const name = document.getElementById('loginName').value.trim();
+      const phone = document.getElementById('loginPhone').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const businessName = document.getElementById('loginBusinessName').value.trim();
+      const address = document.getElementById('loginAddress').value.trim();
+
+      const phoneRegex = /^01[0-9]{9}$/;
+      if (!phoneRegex.test(phone)) {
+        alert("দয়া করে সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)।");
+        return;
+      }
+
+      if(registeredUsers.some(u => u.phone === phone)) {
+        alert("এই মোবাইল নম্বর দিয়ে ইতিমধ্যে একটি একাউন্ট রয়েছে। অনুগ্রহ করে লগইন করুন।");
+        switchAuthTab('login');
+        return;
+      }
+
+      currentUser = { name, phone, password, businessName, address, profilePic: "", coverPic: "" };
+      localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+      registeredUsers.push(currentUser);
+      localStorage.setItem('mothbaria_all_users', JSON.stringify(registeredUsers));
+
+      renderProfilePage();
+      updateDrawerUserInfo();
+      alert('সফলভাবে অ্যাকাউন্ট তৈরি হয়েছে!');
+    }
+
+    function handleUserLogin(e) {
+      e.preventDefault();
+      const phone = document.getElementById('signinPhone').value.trim();
+      const password = document.getElementById('signinPassword').value.trim();
+
+      const user = registeredUsers.find(u => u.phone === phone && u.password === password);
+      if(user) {
+        currentUser = user;
+        localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+        renderProfilePage();
+        updateDrawerUserInfo();
+        alert('সফলভাবে লগইন হয়েছে!');
+      } else {
+        alert("মোবাইল নম্বর অথবা পাসওয়ার্ড ভুল হয়েছে!");
+      }
+    }
+
+    function openForgotPasswordModal() {
+      document.getElementById('forgotPasswordModal').style.display = 'flex';
+    }
+    function closeForgotPasswordModal() {
+      document.getElementById('forgotPasswordModal').style.display = 'none';
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('mothbaria_user');
+      renderProfilePage();
+      updateDrawerUserInfo();
+    }
+
+    function openEditProfileModal() {
+      if (!currentUser) return;
+      document.getElementById('editProfileName').value = currentUser.name || '';
+      document.getElementById('editProfilePhone').value = currentUser.phone || '';
+      document.getElementById('editProfileBusiness').value = currentUser.businessName || '';
+      document.getElementById('editProfileAddress').value = currentUser.address || 'মঠবাড়িয়া সদর';
+      document.getElementById('editProfileModal').style.display = 'flex';
+    }
+
+    function closeEditProfileModal() {
+      document.getElementById('editProfileModal').style.display = 'none';
+    }
+
+    function handleUpdateProfile(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      const phone = document.getElementById('editProfilePhone').value.trim();
+      const phoneRegex = /^01[0-9]{9}$/;
+      if (!phoneRegex.test(phone)) {
+        alert("দয়া করে সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
+        return;
+      }
+
+      currentUser.name = document.getElementById('editProfileName').value.trim();
+      currentUser.phone = phone;
+      currentUser.businessName = document.getElementById('editProfileBusiness').value.trim();
+      currentUser.address = document.getElementById('editProfileAddress').value.trim();
+
+      localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+      updateRegisteredUserInStorage();
+      renderProfilePage();
+      updateDrawerUserInfo();
+      closeEditProfileModal();
+    }
+
+    function updateProfilePicture(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentUser.profilePic = evt.target.result;
+          localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+          updateRegisteredUserInStorage();
+          renderProfilePage();
+          updateDrawerUserInfo();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateCoverPicture(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentUser.coverPic = evt.target.result;
+          localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+          updateRegisteredUserInStorage();
+          renderProfilePage();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateRegisteredUserInStorage() {
+      const idx = registeredUsers.findIndex(u => u.phone === currentUser.phone);
+      if(idx > -1) {
+        registeredUsers[idx] = currentUser;
+        localStorage.setItem('mothbaria_all_users', JSON.stringify(registeredUsers));
+      } else {
+        registeredUsers.push(currentUser);
+        localStorage.setItem('mothbaria_all_users', JSON.stringify(registeredUsers));
+      }
+    }
+
+    // Admin clicking customer name to view and edit details
+    function openAdminEditCustomer(phone) {
+      const user = registeredUsers.find(u => u.phone === phone);
+      if(!user) return;
+
+      document.getElementById('adminEditOriginalPhone').value = user.phone;
+      document.getElementById('adminEditName').value = user.name || '';
+      document.getElementById('adminEditPhone').value = user.phone || '';
+      document.getElementById('adminEditPassword').value = user.password || '';
+      document.getElementById('adminEditBusiness').value = user.businessName || '';
+      document.getElementById('adminEditAddress').value = user.address || 'মঠবাড়িয়া সদর';
+
+      document.getElementById('adminEditCustomerModal').style.display = 'flex';
+    }
+
+    function closeAdminEditCustomerModal() {
+      document.getElementById('adminEditCustomerModal').style.display = 'none';
+    }
+
+    function handleAdminUpdateCustomer(e) {
+      e.preventDefault();
+      const origPhone = document.getElementById('adminEditOriginalPhone').value;
+      const user = registeredUsers.find(u => u.phone === origPhone);
+
+      if(user) {
+        user.name = document.getElementById('adminEditName').value.trim();
+        user.phone = document.getElementById('adminEditPhone').value.trim();
+        user.password = document.getElementById('adminEditPassword').value.trim();
+        user.businessName = document.getElementById('adminEditBusiness').value.trim();
+        user.address = document.getElementById('adminEditAddress').value.trim();
+
+        localStorage.setItem('mothbaria_all_users', JSON.stringify(registeredUsers));
+
+        if(currentUser && currentUser.phone === origPhone) {
+          currentUser = user;
+          localStorage.setItem('mothbaria_user', JSON.stringify(currentUser));
+          updateDrawerUserInfo();
+        }
+
+        alert('কাস্টমার তথ্য সফলভাবে আপডেট করা হয়েছে!');
+        closeAdminEditCustomerModal();
+        renderAdminPanelData();
+      }
+    }
+
+    function renderProfilePage() {
+      if (!currentUser) {
+        document.getElementById('loggedOutBox').style.display = 'block';
+        document.getElementById('loggedInBox').style.display = 'none';
+        switchAuthTab('register');
+      } else {
+        document.getElementById('loggedOutBox').style.display = 'none';
+        document.getElementById('loggedInBox').style.display = 'block';
+        document.getElementById('userDisplayName').innerText = currentUser.name;
+        document.getElementById('userDisplayBusiness').innerText = `🏪 ${currentUser.businessName}`;
+        document.getElementById('userDisplayPhone').innerText = currentUser.phone;
+        document.getElementById('userDisplayAddress').innerText = currentUser.address;
+        
+        const avatarEl = document.getElementById('avatarLetter');
+        if(currentUser.profilePic) {
+          avatarEl.innerText = "";
+          avatarEl.style.backgroundImage = `url('${currentUser.profilePic}')`;
+        } else {
+          avatarEl.style.backgroundImage = "none";
+          avatarEl.innerText = currentUser.name.charAt(0).toUpperCase();
+        }
+
+        const coverEl = document.getElementById('profileCoverBg');
+        if(currentUser.coverPic) {
+          coverEl.style.backgroundImage = `url('${currentUser.coverPic}')`;
+        } else {
+          coverEl.style.backgroundImage = "none";
+        }
+
+        renderMyAds();
+      }
+    }
+
+    function renderDirectInbox() {
+      const container = document.getElementById('directInboxContainer');
+      if(!currentUser) {
+        container.innerHTML = `<p style="font-size: 11px; color: #718096; padding: 10px;">মেসেজ দেখতে লগইন করুন।</p>`;
+        return;
+      }
+      const myChats = chats.filter(c => c.buyerPhone === currentUser.phone || c.sellerPhone === currentUser.phone);
+      if(myChats.length === 0) {
+        container.innerHTML = `<p style="font-size: 11px; color: #718096; padding: 10px;">কোনো চ্যাট নেই।</p>`;
+        return;
+      }
+      container.innerHTML = myChats.map(chat => `
+        <div class="inbox-item" onclick="openChatById(${chat.id})">
+          <div>
+            <strong style="font-size: 12px; color: #1e293b;">📌 ${chat.adTitle}</strong>
+            <p style="font-size: 10px; color: #64748b;">${chat.messages[chat.messages.length - 1]?.text || ''}</p>
+          </div>
+          <span style="font-size: 10px; color: #ff5722; font-weight: bold;">চ্যাট খুলুন ➔</span>
+        </div>
+      `).join('');
+    }
+
+    function renderMyAds() {
+      const container = document.getElementById('myAdsContainer');
+      const myAds = ads.filter(a => a.sellerPhone === currentUser.phone);
+      if (myAds.length === 0) {
+        container.innerHTML = `<p style="font-size: 11px; color: #718096; padding: 10px;">আপনার কোনো বিজ্ঞাপন নেই।</p>`;
+        return;
+      }
+      container.innerHTML = myAds.map(ad => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <img src="${ad.image}" style="width: 36px; height: 36px; object-fit: cover; border-radius: 6px;">
+            <div>
+              <strong style="font-size: 11px;">${ad.title}</strong>
+              <div style="font-size: 10px; color: ${ad.status === 'approved' ? '#16a34a' : '#f59e0b'}; font-weight: bold;">৳ ${ad.price} (${ad.status === 'approved' ? 'এপ্রুভড' : 'পেন্ডিং'})</div>
+            </div>
+          </div>
+          <button onclick="deleteMyAd(${ad.id})" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">ডিলিট</button>
+        </div>
+      `).join('');
+    }
+
+    function deleteMyAd(id) {
+      ads = ads.filter(a => a.id !== id);
+      saveAdsToStorage();
+      renderMyAds();
+      renderPublicAds();
+    }
+
+    function renderAdminPanelData() {
+      const pendingAds = ads.filter(a => a.status === 'pending');
+      const approvedAds = ads.filter(a => a.status === 'approved');
+
+      document.getElementById('pendingCount').innerText = pendingAds.length;
+      document.getElementById('approvedCount').innerText = approvedAds.length;
+      document.getElementById('userCount').innerText = registeredUsers.length;
+
+      document.getElementById('adminPendingAdsContainer').innerHTML = pendingAds.length === 0 ? '<p style="font-size:11px; color:#718096;">পেন্ডিং নেই</p>' : pendingAds.map(ad => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px; background: #fff;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <img src="${ad.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;">
+            <div>
+              <strong style="font-size: 11px;">${ad.title}</strong>
+              <div style="font-size: 10px; color: #64748b;">বিক্রেতা: ${ad.seller} (${ad.sellerPhone})</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <button onclick="approveAd(${ad.id})" style="background:#16a34a; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">এপ্রুভ</button>
+            <button onclick="removeAdByAdmin(${ad.id})" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">রিমোভ</button>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('adminApprovedAdsContainer').innerHTML = approvedAds.length === 0 ? '<p style="font-size:11px; color:#718096;">এপ্রুভড নেই</p>' : approvedAds.map(ad => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px; background: #fff;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <img src="${ad.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;">
+            <div>
+              <strong style="font-size: 11px;">${ad.title}</strong>
+              <div style="font-size: 10px; color: #64748b;">৳ ${ad.price}</div>
+            </div>
+          </div>
+          <button onclick="removeAdByAdmin(${ad.id})" style="background:#ef4444; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">রিমোভ</button>
+        </div>
+      `).join('');
+
+      // Customer list with clickable name to view details / edit password
+      document.getElementById('adminUserListContainer').innerHTML = registeredUsers.map((u, i) => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px; background: #fff;">
+          <div>
+            <strong style="font-size: 11px; cursor: pointer; color: #ff5722; text-decoration: underline;" onclick="openAdminEditCustomer('${u.phone}')">${i+1}. ${u.name} (${u.businessName || 'ব্যক্তিগত'})</strong>
+            <div style="font-size: 10px; color: #0284c7;">${u.phone} | পাসওয়ার্ড: ${u.password} | ${u.address || 'লোকেশন নেই'}</div>
+          </div>
+          <a href="tel:${u.phone}" style="background:#0284c7; color:white; padding:4px 8px; border-radius:4px; font-size:10px; text-decoration:none;">কল</a>
+        </div>
+      `).join('');
+    }
+
+    function approveAd(id) {
+      const ad = ads.find(a => a.id === id);
+      if(ad) { ad.status = 'approved'; saveAdsToStorage(); renderAdminPanelData(); renderPublicAds(); }
+    }
+
+    function removeAdByAdmin(id) {
+      ads = ads.filter(a => a.id !== id);
+      saveAdsToStorage();
+      renderAdminPanelData();
+      renderPublicAds();
+    }
+
+    function openAddModal() {
+      if(!currentUser) {
+        alert("বিজ্ঞাপন পোস্ট করতে প্রথমে প্রোফাইল থেকে অ্যাকাউন্ট খুলুন বা লগইন করুন।");
+        showPage('profile');
+        return;
+      }
+      document.getElementById('adModal').style.display = 'flex';
+    }
+
+    function closeAddModal() { document.getElementById('adModal').style.display = 'none'; }
+
+    function postNewAd(e) {
+      e.preventDefault();
+      const title = document.getElementById('adTitle').value.trim();
+      const category = document.getElementById('adCategory').value;
+      const location = document.getElementById('adLocation').value;
+      const price = Number(document.getElementById('adPrice').value);
+      const fileInput = document.getElementById('adImageFile');
+
+      if(fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const newAd = {
+            id: Date.now(),
+            title,
+            category,
+            location,
+            price,
+            sellerPhone: currentUser.phone,
+            seller: currentUser.name,
+            status: 'pending',
+            image: evt.target.result
+          };
+          ads.push(newAd);
+          saveAdsToStorage();
+          closeAddModal();
+          alert('আপনার বিজ্ঞাপনটি সফলভাবে পোস্ট হয়েছে এবং অ্যাডমিন অনুমোদনের অপেক্ষায় রয়েছে!');
+          showPage('home');
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    let activeCategoryFilter = 'সব';
+    function filterCategory(cat) {
+      activeCategoryFilter = cat;
+      document.getElementById('catHeading').innerText = cat === 'সব' ? 'সাম্প্রতিক বিজ্ঞাপন' : `${cat} ক্যাটাগরির বিজ্ঞাপন`;
+      renderPublicAds();
+    }
+
+    function searchProduct() {
+      renderPublicAds();
+    }
+
+    function renderPublicAds() {
+      const grid = document.getElementById('publicProductGrid');
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+      let filtered = ads.filter(a => a.status === 'approved');
+
+      if(selectedUnionFilter !== 'সব ইউনিয়ন') {
+        filtered = filtered.filter(a => a.location === selectedUnionFilter);
+      }
+
+      if(activeCategoryFilter !== 'সব') {
+        filtered = filtered.filter(a => a.category === activeCategoryFilter);
+      }
+
+      if(searchQuery) {
+        filtered = filtered.filter(a => a.title.toLowerCase().includes(searchQuery) || a.category.toLowerCase().includes(searchQuery));
+      }
+
+      if(filtered.length === 0) {
+        grid.innerHTML = `<p style="font-size: 12px; color: #718096; grid-column: 1/-1; text-align: center; padding: 20px;">কোনো বিজ্ঞাপন পাওয়া যায়নি।</p>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(ad => {
+        const isFav = wishlist.includes(ad.id);
+        return `
+          <div class="card-small" onclick="openProductDetail(${ad.id})">
+            <button class="fav-heart-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist(event, ${ad.id})">❤</button>
+            <div>
+              <img src="${ad.image}">
+              <div class="card-small-info">
+                <div class="card-small-title">${ad.title}</div>
+                <div class="card-small-price">৳ ${ad.price}</div>
+                <div class="card-small-location">📍 ${ad.location}</div>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-chat" onclick="event.stopPropagation(); startChatForAd(${ad.id})">💬 মেসেজ</button>
+              <a href="tel:${ad.sellerPhone}" class="btn-call" onclick="event.stopPropagation()">📞 কল</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    let currentChatAd = null;
+    function startChatForAd(adId) {
+      if(!currentUser) {
+        alert("মেসেজ পাঠাতে প্রথমে লগইন করুন।");
+        showPage('profile');
+        return;
+      }
+      const ad = ads.find(a => a.id === adId);
+      if(!ad) return;
+
+      if(ad.sellerPhone === currentUser.phone) {
+        alert("এটি আপনার নিজের বিজ্ঞাপন!");
+        return;
+      }
+
+      let chat = chats.find(c => c.adId === adId && (c.buyerPhone === currentUser.phone || c.sellerPhone === currentUser.phone));
+      if(!chat) {
+        chat = {
+          id: Date.now(),
+          adId: ad.id,
+          adTitle: ad.title,
+          buyerPhone: currentUser.phone,
+          buyerName: currentUser.name,
+          sellerPhone: ad.sellerPhone,
+          sellerName: ad.seller,
+          messages: [{ sender: 'system', text: `${ad.title} সম্পর্কে কথা বলুন।` }]
+        };
+        chats.push(chat);
+        localStorage.setItem('mothbaria_chats', JSON.stringify(chats));
+      }
+      openChatById(chat.id);
+    }
+
+    function openChatById(chatId) {
+      currentChatAd = chats.find(c => c.id === chatId);
+      if(!currentChatAd) return;
+
+      document.getElementById('chatTargetTitle').innerText = `চ্যাট: ${currentChatAd.adTitle}`;
+      document.getElementById('chatPostInfo').innerHTML = `পণ্যের বিষয়ে বিক্রেতার সাথে চ্যাট করুন`;
+      renderChatMessages();
+      document.getElementById('chatModal').style.display = 'flex';
+    }
+
+    function closeChatModal() { document.getElementById('chatModal').style.display = 'none'; }
+
+    function renderChatMessages() {
+      const box = document.getElementById('chatMessages');
+      if(!currentChatAd) return;
+      box.innerHTML = currentChatAd.messages.map(m => {
+        if(m.sender === 'system') return `<div style="text-align:center; font-size:10px; color:#718096; margin:4px 0;">${m.text}</div>`;
+        const isMe = m.senderPhone === currentUser.phone;
+        return `<div class="chat-msg ${isMe ? 'sent' : 'received'}">${m.text}</div>`;
+      }).join('');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if(!text || !currentChatAd) return;
+
+      currentChatAd.messages.push({
+        sender: currentUser.name,
+        senderPhone: currentUser.phone,
+        text: text
+      });
+      localStorage.setItem('mothbaria_chats', JSON.stringify(chats));
+      input.value = '';
+      renderChatMessages();
+    }
+  </script>
+</body>
+</html>
